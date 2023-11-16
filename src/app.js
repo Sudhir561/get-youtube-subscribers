@@ -2,6 +2,7 @@
 const express = require("express"); // Import the Express framework
 const path = require("path"); // Import the path module for working with file paths
 
+
 //SCHEMA
 const subscriberSchema = require("./models/subscribers"); // Import the subscriber model
 //const { error } = require("console"); // Import the 'error' object from the console module
@@ -81,6 +82,23 @@ app.get("/subscribers/names", async (req, res, next) => {
   } catch (err) {
     res.status(400); // Set the response status to 400 (Bad Request)
     next(err); // Pass the error to the error handling middleware
+  }
+});
+
+// THIS ROUTE PROVIDES THE DETAILS OF SUBSCRIBER WITH THE GIVEN ID.
+app.get("/subscribers/:id", async (req, res) => {
+  try {
+    const id = req.params.id; // Extract the ID parameter from the request URL
+
+    // Attempt to find a subscriber with the given ID in the schema/model
+    const subscriber = await subscriberSchema.findById(id);
+
+    if (subscriber) {
+      return res.status(200).json(subscriber); // Send the subscriber details as the response
+    } 
+  } catch (error) {
+    // Handle the error
+    return res.status(404).json({ message: "Subscriber not found" }); // Send a JSON response with a status of 404 (Not Found)
   }
 });
 
