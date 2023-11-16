@@ -2,11 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>youtube-subscriber</title>
 </head>
 <body>
-    <h2>welcome to youtube subscriber backend project</h2>
+    <h1>Welcome to get youtube subscriber details app</h1>
+
+    <!-- Form for sending a POST request to your API -->
+    <form id="subscriberForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="channel">Subscribed Channel:</label>
+        <input type="text" id="channel" name="channel" required>
+
+        <button type="submit">Subscribe</button>
+    </form>
+
+    <h1>all get api</h1>
+
+    <div>
+         <!-- Link for opening http://localhost:3000/subscribers in a new tab -->
+     <h3>for getting the list of subscribers details click on below link </h3>
+     <a href="http://localhost:3000/subscribers" target="_blank">/subscribes</a>
+    </div>
+
+
+    <div>
+        <!-- Link for opening http://localhost:3000/subscribers/names in a new tab -->
+    <h3>for getting the list of subscribers details by names  click on below link </h3>
+    <a href="http://localhost:3000/subscribers/names" target="_blank">/subscribes/names</a>
+   </div>
+
+   <div>
+    <!-- Link for opening http://localhost:3000/subscribers/names in a new tab -->
+    <h3>for getting the  subscribers names and subscribers channel  by id  click on below link </h3>
+     <a href="http://localhost:3000/subscribers/:id" target="_blank">/subscribes/:id</a>
+   </div>
+    <script>
+        // Handle form submission
+        document.getElementById("subscriberForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get form values
+            const name = document.getElementById("name").value;
+            const channel = document.getElementById("channel").value;
+
+            // Create an object with the form data
+            const formData = {
+                name: name,
+                subscribedChannel: channel
+            };
+
+            // Make a POST request using fetch
+            fetch("/subscribers", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+               if(data){
+                // Handle success, e.g., display a success message
+                return  window.alert(`Name: ${data.name}\nSubscribed Channel: ${data.subscribedChannel} \n post successfully`);
+               }
+             
+               else 
+               alert(data)
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Handle error, e.g., display an error message
+
+                
+            });
+        });
+    </script>
 </body>
 </html>
