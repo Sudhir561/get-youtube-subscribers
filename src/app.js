@@ -54,19 +54,21 @@ app.post("/subscribers", async (req, res, next) => {
   }
 });
 
+//HOME PAGE
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/index.html")); // Serve the index.html file as the home page
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
+//THIS ROUTE SHOWS ALL THE SUBSCRIBERS LIST WITH DETAILS
+app.get("/subscribers", async (req, res, next) => {
+  try {
+    let subscribers = await subscriberSchema.find(); // Retrieve all subscribers from the schema/model
+    res.status(200).json(subscribers); // Send the subscribers as a JSON response with a status of 200 (OK)
+  } catch (err) {
+    res.status(400); // Set the response status to 400 (Bad Request)
+    next(err); // Pass the error to the error handling middleware
+  }
+});
 
 
 
