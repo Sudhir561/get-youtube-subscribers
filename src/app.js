@@ -71,6 +71,25 @@ app.get("/subscribers", async (req, res, next) => {
 });
 
 
+app.get("/subscribers/names", async (req, res, next) => {
+  try {
+    let subscribers = await subscriberSchema.find(
+      {},
+      { name: 1, subscribedChannel: 1, _id: 0 }
+    ); // Retrieve subscribers with only the name and subscribedChannel fields from the schema/model
+    res.status(200).json(subscribers); // Send the subscribers as a JSON response with a status of 200 (OK)
+  } catch (err) {
+    res.status(400); // Set the response status to 400 (Bad Request)
+    next(err); // Pass the error to the error handling middleware
+  }
+});
+
+
+
+// HANDLES ALL THE UNWANTED REQUESTS.
+app.use((req, res) => {
+  res.status(404).json({ message: "Error - Route not found" }); // Send a JSON response with a status of 404 (Not Found)
+});
 
 
 
