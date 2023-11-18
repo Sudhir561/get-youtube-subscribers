@@ -13,7 +13,8 @@ const app = express(); // Create an Express application
 app.use(express.json()); // Middleware to parse incoming JSON data
 app.use(express.urlencoded({ extended: false })); // Middleware to parse incoming URL-encoded data
 
-
+const cors = require("cors");
+app.use(cors());
 
 
 // POST endpoint to add a new subscriber

@@ -1,0 +1,104 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2023-11-18T10:10:56.874Z",
+    "end": "2023-11-18T10:11:56.909Z",
+    "duration": 60035,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "9de12867-1112-4104-97f6-6809efc2c920",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2f50212e-5e3a-4c7d-b628-c7166e502caf",
+          "title": "YouTube Subscribe App",
+          "fullFile": "D:\\capstone project\\Subscribers-Mongo-Node-BoilerPlate-main\\__tests__\\test.js",
+          "file": "\\__tests__\\test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should add a new subscriber",
+              "fullTitle": "YouTube Subscribe App should add a new subscriber",
+              "timedOut": true,
+              "duration": 60017,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "chai\n  .request(app)\n  .post('/subscribers')\n  .send({ name: 'sudhir', subscribedChannel: 'kumar' })\n  .end((err, res) => {\n    expect(res).to.have.status(201);\n    expect(res.body).to.be.an('object');\n    \n    done();\n  });",
+              "err": {
+                "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (D:\\capstone project\\Subscribers-Mongo-Node-BoilerPlate-main\\__tests__\\test.js)",
+                "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (D:\\capstone project\\Subscribers-Mongo-Node-BoilerPlate-main\\__tests__\\test.js)\n    at listOnTimeout (node:internal/timers:557:17)\n    at processTimers (node:internal/timers:500:7)",
+                "diff": null
+              },
+              "uuid": "f192b4b0-5e56-4eb5-a31c-238b254a5b72",
+              "parentUUID": "2f50212e-5e3a-4c7d-b628-c7166e502caf",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "f192b4b0-5e56-4eb5-a31c-238b254a5b72"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 60017,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 60000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "8.4.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.1.1"
+    },
+    "marge": {
+      "options": null,
+      "version": "5.1.0"
+    }
+  }
+}

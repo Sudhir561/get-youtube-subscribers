@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>youtube-subscriber</title>
+    <style>.container{background-color: aqua;color:rgb(3, 3, 13);margin:40px 20%;padding:10px;border-radius: 10px;text-align: center;}
+           input[type="text"]{padding:5px;border-radius: 5px;margin-right: 15px;}
+           .submit{padding:8px;border-radius:5px;border: none;
+            width: 8%;margin:10px;background-color: red;color:aliceblue}
+            body{background: rgb(2,0,36);
+background: linear-gradient(48deg, rgba(2,0,36,1) 0%, rgba(121,90,9,0.6111694677871149) 35%, rgba(0,212,255,1) 100%);}
+label{color: rgb(156, 137, 150);}
+div h3{border:3px solid goldenrod}
+          
+        </style>
 </head>
 <body>
+    <div class="container">
     <h1>Welcome to get youtube subscriber details app</h1>
-
+    <div class="form">
     <!-- Form for sending a POST request to your API -->
     <form id="subscriberForm">
         <label for="name">Name:</label>
@@ -16,8 +27,9 @@
         <label for="channel">Subscribed Channel:</label>
         <input type="text" id="channel" name="channel" required>
 
-        <button type="submit">Subscribe</button>
+        <button class ="submit"type="submit">Subscribe</button>
     </form>
+</div>
 
     <h1>all get api</h1>
 
@@ -39,6 +51,7 @@
     <h3>for getting the  subscribers names and subscribers channel  by id  click on below link </h3>
      <a href="http://localhost:3000/subscribers/:id" target="_blank">/subscribes/:id</a>
    </div>
+</div>
     <script>
         // Handle form submission
         document.getElementById("subscriberForm").addEventListener("submit", function(event) {
