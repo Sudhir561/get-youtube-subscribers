@@ -65,27 +65,42 @@ app.get("/", (req, res) => {
 //THIS ROUTE SHOWS ALL THE SUBSCRIBERS LIST WITH DETAILS
 app.get("/subscribers", async (req, res, next) => {
   try {
-    let subscribers = await subscriberSchema.find(); // Retrieve all subscribers from the schema/model
-    res.status(200).json(subscribers); // Send the subscribers as a JSON response with a status of 200 (OK)
+    let subscribers = await subscriberSchema.find({});
+
+    if (subscribers.length > 0) {
+      // If subscribers are found, return the data
+      res.status(200).json(subscribers);
+    } else {
+      // If no subscribers are found, return a custom message
+      res.status(200).json({ message: "No subscribers data found" });
+    }
   } catch (err) {
-    res.status(400); // Set the response status to 400 (Bad Request)
-    next(err); // Pass the error to the error handling middleware
+    // Handle errors
+    res.status(400).json(err.message);
+    next(err);
   }
 });
+
 
 
 app.get("/subscribers/names", async (req, res, next) => {
   try {
-    let subscribers = await subscriberSchema.find(
-      {},
-      { name: 1, subscribedChannel: 1, _id: 0 }
-    ); // Retrieve subscribers with only the name and subscribedChannel fields from the schema/model
-    res.status(200).json(subscribers); // Send the subscribers as a JSON response with a status of 200 (OK)
+    let subscribers = await subscriberSchema.find({}, { name: 1, subscribedChannel: 1, _id: 0 });
+
+    if (subscribers.length > 0) {
+      // If subscribers are found, return the data
+      res.status(200).json(subscribers);
+    } else {
+      // If no subscribers are found, return a custom message
+      res.status(200).json({ message: "No subscribers data  found by name" });
+    }
   } catch (err) {
-    res.status(400); // Set the response status to 400 (Bad Request)
-    next(err); // Pass the error to the error handling middleware
+    // Handle errors
+    res.status(400).json(err.message);
+    next(err);
   }
 });
+
 
 // THIS ROUTE PROVIDES THE DETAILS OF SUBSCRIBER WITH THE GIVEN ID.
 app.get("/subscribers/:id", async (req, res) => {
@@ -98,9 +113,14 @@ app.get("/subscribers/:id", async (req, res) => {
     if (subscriber) {
       return res.status(200).json(subscriber); // Send the subscriber details as the response
     } 
+    else 
+    return res.status(404).json({ message: "Subscriber not found" });
   } catch (error) {
     // Handle the error
-    return res.status(404).json({ message: "Subscriber not found" }); // Send a JSON response with a status of 404 (Not Found)
+    return res.status(400).json({ "error": {
+      "code": "InvalidId",
+      "message": "The provided _id is not of the correct length (12 bytes or 24 character)."
+    } }); // Send a JSON response with a status of 404 (Not Found)
   }
 });
 
