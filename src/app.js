@@ -1,6 +1,7 @@
 
 const express = require("express"); // Import the Express framework
 const path = require("path"); // Import the path module for working with file paths
+const dotEnv=require('dotenv').config()
 
 
 //SCHEMA

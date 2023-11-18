@@ -1,6 +1,7 @@
 const express = require('express')
 const app = require('./src/app')
 const mongoose = require('mongoose')
+const dotEnv=require('dotenv').config()
 const port = 3000
 
 // Parse JSON bodies (as sent by API clients)

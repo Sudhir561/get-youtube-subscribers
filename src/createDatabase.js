@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const subscriberModel = require('./models/subscribers')
 const data = require('./data')
+const dotEnv=require('dotenv').config()
 
 // Connect to DATABASE
-const DATABASE_URL = "mongodb+srv://sudhirdb:sudhir123@cluster0.ap7jc2a.mongodb.net/youtubesubscribers?retryWrites=true&w=majority";
+const DATABASE_URL = process.env.MONGOOSE_URL;
 mongoose.connect(DATABASE_URL,{ useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection
 db.on('error', (err) => console.log(err))
