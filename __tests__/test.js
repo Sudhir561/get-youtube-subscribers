@@ -1,126 +1,160 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../src/app'); // Update the path accordingly
-const expect = chai.expect;
+const app = require('../src/app');
+const mongoose = require('mongoose');
+
+const { expect } = chai;
 
 chai.use(chaiHttp);
 
-describe('YouTube Subscribe App', () => {
-  // Test case for adding a new subscriber
-  it('should add a new subscriber', (done) => {
-    chai
+before(async () => {
+  // Connect to a test database or perform any setup you need
+  // This will depend on your testing environment and strategy
+  await mongoose.connect('mongodb+srv://sudhirdb:sudhir123@cluster0.ap7jc2a.mongodb.net/youtubesubscribers?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+});
+
+after(async () => {
+  // Disconnect from the test database or perform any cleanup
+  await mongoose.disconnect();
+});
+
+// Test cases for the POST /subscribers endpoint
+describe('POST /subscribers', () => {
+  //test case for create a new subscriber
+  it('should create a new subscriber', async () => {
+    const response = await chai
       .request(app)
       .post('/subscribers')
-      .send({ name: 'sudhir', subscribedChannel: 'kumar' })
-      .end((err, res) => {
-        expect(res).to.have.status(201);
-        expect(res.body).to.be.an('object');
-        
-
-        done();
+      .send({
+        name: 'Test User',
+        subscribedChannel: 'Test Channel',
+        subscribedDate: '2023-11-20T00:00:00.000Z', // Provide a valid date here
       });
+
+    expect(response).to.have.status(201);
+    expect(response.body).to.have.property('name', 'Test User');
+    expect(response.body).to.have.property('subscribedChannel', 'Test Channel');
   });
 
-  //Test case for handling invalid input
-  it('should handle invalid input', (done) => {
-    chai
+  //test case for return an error for incomplete data
+  it('should return an error for incomplete data', async () => {
+    const response = await chai
       .request(app)
       .post('/subscribers')
-      .send({ name: '', subscribedChannel: 'Test Channel' }) // name should not be empty
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        done();
-      });
+      .send({});
+
+    expect(response).to.have.status(400);
+    expect(response.body).to.have.property('error');
   });
 
-  // Test case for handling duplicate subscribers
-  it('should handle duplicate subscribers', (done) => {
-    chai
+  //test case for existing data in database
+  it('should return an error for existing subscriber', async () => {
+    
+   //send  request data which is   existing in database
+    const response = await chai
       .request(app)
       .post('/subscribers')
-      .send({ name: 'John Doe', subscribedChannel: 'Test Channel' })
-      .end(() => {
-        chai
-          .request(app)
-          .post('/subscribers')
-          .send({ name: 'John Doe', subscribedChannel: 'Test Channel' })
-          .end((err, res) => {
-            expect(res).to.have.status(409);
-            done();
-          });
+      .send({
+        name: 'Test User',
+        subscribedChannel: 'Test Channel',
       });
-  });
 
-  // Test case for retrieving all subscribers
-  it('should retrieve all subscribers', (done) => {
-    chai
+    expect(response).to.have.status(409);
+    expect(response.body).to.have.property('error');
+  });
+});
+
+// Test cases for the Get /subscribers endpoint
+describe('GET /subscribers', () => {
+  //test case for getting response of subscribers data from database
+  it('should return a list of subscribers', async () => {
+    const response = await chai
       .request(app)
-      .get('/subscribers')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
-        // Add more assertions for the retrieved subscribers data
+      .get('/subscribers');
 
-        done();
-      });
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.an('array');
   });
 
-  // Test case for retrieving subscribers with names and channels only
-  it('should retrieve subscribers with names and channels only', (done) => {
-    chai
+  //test case for response if no data in database
+  it('should return a custom message for no data found', async () => {
+    // Assuming the database is empty
+    const response = await chai
       .request(app)
-      .get('/subscribers/names')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
-        // Add more assertions for the retrieved subscribers data
+      .get('/subscribers');
 
-        done();
-      });
+    expect(response).to.have.status(404);
+    expect(response.body).to.have.property('message', 'No subscribers data found');
   });
+});
 
-  // Test case for retrieving details of a subscriber by ID
-  it('should retrieve details of a subscriber by ID', (done) => {
-    // Assume you have a subscriber ID from a previous test or database
-    const subscriberId = '6556499fe967353be4393f0a';
-    chai
+// Test cases for the Get /subscribers/names endpoint
+describe('GET /subscribers/names', () => {
+  // test case for getting list of subscriber names
+  it('should return a list of subscriber names', async () => {
+    const response = await chai
       .request(app)
-      .get(`/subscribers/${subscriberId}`)
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('object');
-       
+      .get('/subscribers/names');
 
-        done();
-      });
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.an('array');
   });
 
-  // Test case for handling a non-existent subscriber ID
-  it('should handle a non-existent subscriber ID', (done) => {
-    const nonExistentId = 'non_existent_id';
-    chai
+  //test case if no data found 
+  it('should return a custom message for no data found', async () => {
+    // Assuming the database is empty
+    const response = await chai
       .request(app)
-      .get(`/subscribers/${nonExistentId}`)
-      .end((err, res) => {
-        expect(res).to.have.status(404);
-        expect(res.body).to.have.property('message', 'Subscriber not found');
+      .get('/subscribers/names');
 
-        done();
-      });
+    expect(response).to.have.status(404);
+    expect(response.body).to.have.property('message', 'No subscribers data  found by name');
   });
+});
 
-  //Test case for handling unknown routes
-  it('should handle unknown routes', (done) => {
-    chai
+
+// Test cases for the Get /subscribers/:id endpoint
+describe('GET /subscribers/:id', () => {
+  //if provided id exist in database
+  it('should return details of a subscriber', async () => {
+    // Create a subscriber to get its ID
+    const createResponse = await chai
       .request(app)
-      .get('/unknown-route')
-      .end((err, res) => {
-        expect(res).to.have.status(404);
-        expect(res.body).to.have.property('message', 'Error - Route not found');
-
-        done();
+      .post('/subscribers')
+      .send({
+        name: 'Test User2',
+        subscribedChannel: 'Test Channel2',
       });
+
+    const response = await chai
+      .request(app)
+      .get(`/subscribers/${createResponse.body._id}`);
+
+    expect(response).to.have.status(200);
+    expect(response.body).to.have.property('name', 'Test User2');
+    expect(response.body).to.have.property('subscribedChannel', 'Test Channel2');
   });
 
-  
+  // if ID is invalid or not correct length
+  it('should return an error for an invalid ID', async () => {
+    const response = await chai
+      .request(app)
+      .get('/subscribers/invalidId');
+
+    expect(response).to.have.status(400);
+    expect(response.body).to.have.property('error');
+  });
+
+  // if ID format is correct but not exist in database
+  it('should return an error for a non-existing subscriber', async () => {
+    const response = await chai
+      .request(app)
+      .get('/subscribers/123456789012345678901234');
+
+    expect(response).to.have.status(404);
+    expect(response.body).to.have.property('message', 'Subscriber not found');
+  });
 });
