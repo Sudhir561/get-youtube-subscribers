@@ -72,7 +72,7 @@ app.get("/subscribers", async (req, res, next) => {
       res.status(200).json(subscribers);
     } else {
       // If no subscribers are found, return a custom message
-      res.status(200).json({ message: "No subscribers data found" });
+      res.status(404).json({ message: "No subscribers data found" });
     }
   } catch (err) {
     // Handle errors
@@ -92,7 +92,7 @@ app.get("/subscribers/names", async (req, res, next) => {
       res.status(200).json(subscribers);
     } else {
       // If no subscribers are found, return a custom message
-      res.status(200).json({ message: "No subscribers data  found by name" });
+      res.status(404).json({ message: "No subscribers data  found by name" });
     }
   } catch (err) {
     // Handle errors

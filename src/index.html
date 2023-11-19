@@ -5,51 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>youtube-subscriber</title>
     <style>.container{background-color: aqua;color:rgb(3, 3, 13);margin:40px 20%;padding:10px;border-radius: 10px;text-align: center;}
-           input[type="text"]{padding:5px;border-radius: 5px;margin-right: 15px;}
-           .submit{padding:8px;border-radius:5px;border: none;
-            width: 8%;margin:10px;background-color: red;color:aliceblue}
+
+           input[type="text"]{padding:5px;border-radius: 5px;margin-right: 15px;margin-bottom:10px}
+
+           .submit{padding:8px;border-radius:5px;border: none;cursor: pointer;
+            min-width: 8vw;margin:10px;background-color: red;color:aliceblue}
+
             body{background: rgb(2,0,36);
-background: linear-gradient(48deg, rgba(2,0,36,1) 0%, rgba(121,90,9,0.6111694677871149) 35%, rgba(0,212,255,1) 100%);}
-label{color: rgb(156, 137, 150);}
-div h3{border:3px solid goldenrod}
+
+           background: linear-gradient(48deg, rgba(2,0,36,1) 0%, rgba(121,90,9,0.6111694677871149) 35%, rgba(0,212,255,1) 100%);}
+                       label{color: rgb(156, 137, 150);}
+
+           div h3{border:5px solid rgba(218, 165, 32, 0.49);background-color: rgba(128, 128, 128, 0.518);padding:20px}
+
+           .postman-link{background: rgba(0, 0, 0, 0.77);color: white;cursor: pointer;border:2px solid rgb(197, 176, 176)}
+
+           a{color: rgb(228, 16, 16);font-size: 20px;}
+
+           a.doc{color:rgb(213, 181, 181);font-size: 25px;}
+
           
         </style>
 </head>
 <body>
     <div class="container">
-    <h1>Welcome to get youtube subscriber details app</h1>
+    <h1> Get youtube subscriber </h1>
     <div class="form">
     <!-- Form for sending a POST request to your API -->
     <form id="subscriberForm">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" placeholder="Enter Name"required>
 
         <label for="channel">Subscribed Channel:</label>
-        <input type="text" id="channel" name="channel" required>
+        <input type="text" id="channel" name="channel" placeholder="Enter Channel Name" required>
 
         <button class ="submit"type="submit">Subscribe</button>
     </form>
 </div>
 
-    <h1>all get api</h1>
+    <h1> Get api</h1>
 
     <div>
          <!-- Link for opening http://localhost:3000/subscribers in a new tab -->
-     <h3>for getting the list of subscribers details click on below link </h3>
+     <h3> Get list of subscribers details  -
      <a href="http://localhost:3000/subscribers" target="_blank">/subscribes</a>
+    </h3>
     </div>
 
 
     <div>
         <!-- Link for opening http://localhost:3000/subscribers/names in a new tab -->
-    <h3>for getting the list of subscribers details by names  click on below link </h3>
+    <h3>Get  list of subscribers details by names -
     <a href="http://localhost:3000/subscribers/names" target="_blank">/subscribes/names</a>
+    </h3>
    </div>
 
    <div>
     <!-- Link for opening http://localhost:3000/subscribers/names in a new tab -->
-    <h3>for getting the  subscribers names and subscribers channel  by id  click on below link </h3>
+    <h3>Get  subscribers names and subscriber channel  by id -
      <a href="http://localhost:3000/subscribers/:id" target="_blank">/subscribes/:id</a>
+    </h3>
+   </div>
+   
+    <div class="postman-link">
+    <p> Api Schema Documentation-<a class="doc" href="https://documenter.getpostman.com/view/18127873/2s9Ye8euSZ" target="_blank">Click here</a></p>
    </div>
 </div>
     <script>
